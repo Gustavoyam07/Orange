@@ -1,28 +1,30 @@
 Dado(/^que esteja na tela home$/) do
-  @loginPage = LoginUsuario.new
-  @cadastroPage = CadastroUsuario.new
+  @loginpage = LoginUsuario.new
+  @cadastropage = CadastroUsuario.new
 
-  @loginPage.load
-  @loginPage.login 'Admin', 'admin'
+  @loginpage.load
+  @loginpage.login 'Admin', 'admin'
 end
 
 Quando(/^adicionar um novo "([^"]*)" , "([^"]*)"$/) do |nome, sobrenome|
-  @cadastroPage.menuCadastro.click
-  @cadastroPage.menuAddEmpregado.click
-  @cadastroPage.txtPrimeiroNome.set nome
-  @cadastroPage.txtSobreNome.set sobrenome
-  @cadastroPage.btnSalvar.click
+  @cadastropage.menuCadastro.click
+  @cadastropage.menuAddEmpregado.click
+  @cadastropage.txtPrimeiroNome.set nome
+  @cadastropage.txtSobreNome.set sobrenome
+  @cadastropage.btnSalvar.click
   
   @primeiro = nome
   @teste = find('#personal_txtEmpFirstName')
   @sobre = sobrenome
-  @teste2 = find('#personal_txtEmpLastName')
+  @teste2 = find('#personal_txtEmpLastName').text
 end
 
 Entao("o nome e sobrenome deve estar no campo") do
+  assert_text @primeiro
+  assert_text @sobre
   #expect(find(@primeiro).include?)
-  expect(@teste.text).to eq(@primeiro)
-  expect(@teste2.text).to eq(@sobre)
+  #expect(@teste).to eq(@primeiro)
+  #expect(@teste2).to eq(@sobre)
   #expect(@cadastroPage).to have_field("personal_txtEmpFirstName") { |field|
   #field.value.present?}
-end
+end   
